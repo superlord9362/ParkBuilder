@@ -1,12 +1,10 @@
 package com.grimbo.parkbuilder.entity;
 
-import com.grimbo.parkbuilder.entity.render.VelociraptorRender;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.controller.LookController;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -58,18 +56,19 @@ public class VelociraptorEntity extends AnimalEntity implements IAnimatable {
     protected void registerGoals() {
 
         super.registerGoals();
-        this.goalSelector.addGoal(1, new RandomWalkingGoal(this, 1.0D));
-        this.goalSelector.addGoal(2, new SwimGoal(this));
+        this.goalSelector.addGoal(0, new SwimGoal(this));
         this.goalSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
         this.goalSelector.addGoal(4, new TemptGoal(this, 1.25D, Ingredient.fromItems(Items.CHICKEN), false));
         this.goalSelector.addGoal(5, new TemptGoal(this, 1.25D, Ingredient.fromItems(Items.RABBIT), false));
-
+        this.goalSelector.addGoal(1, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
+        this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 6.0F));
+        this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
     }
 
     public static AttributeModifierMap.MutableAttribute setCustomAttributes() {
         return MobEntity.func_233666_p_()
                 .createMutableAttribute(Attributes.MAX_HEALTH, 50D)
-                .createMutableAttribute(Attributes.MOVEMENT_SPEED, .035D);
+                .createMutableAttribute(Attributes.MOVEMENT_SPEED, .35D);
     }
 
 
